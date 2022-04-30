@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, get,child } from "firebase/database";
+import Gauge from './Gauge.js'
+
 
 
 // TODO: Replace with your app's Firebase project configuration
@@ -32,40 +34,55 @@ function writeUserData(userId, name, email, imageUrl) {
 }
 
 
-
-
-
-
-
-
 export default class getData extends Component {
   state ={
-    noise: ''
+    sensor1: '',
+    sensor2: ''
   }
   
-  readData =()=>{
-    const dbRef = ref(getDatabase());
-    get(child(dbRef,'/jason/userId' )).then((snapshot) => {
-    if (snapshot.exists()) {
-      this.setState ({
-        noise : snapshot.val().email
-      })
-    } else {
-      console.log("No data available");
+    readSensor1Data =()=>{
+      const dbRef = ref(getDatabase());
+      get(child(dbRef,'/sensor/sensor1' )).then((snapshot) => {
+      if (snapshot.exists()) {
+        this.setState ({
+          sensor1 : snapshot.val()
+        })
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
     }
-  }).catch((error) => {
-    console.error(error);
-  });
-  }
+    readSensor2Data =()=>{
+      const dbRef = ref(getDatabase());
+      get(child(dbRef,'/sensor/sensor2' )).then((snapshot) => {
+      if (snapshot.exists()) {
+        this.setState ({
+          sensor2 : snapshot.val()
+        })
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+      writeUserData()
+    });
+    }
 
-  render() {
-    return (
-      <div>
-        <p>the noise: {this.state.noise} db</p>
-        <button onClick={this.readData}> get data </button>
-        <br/>
-        <button onClick={writeUserData}> write data </button>
-      </div>
-    )
-  }
+    render() {
+      return (
+        <div>
+          <p>the noise: {this.state.sensor1} db</p>
+          <button onClick={this.readSensor1Data}> get data </button>
+          <Gauge Noise={this.state.sensor1}></Gauge>
+          <br/>
+          <p>the noise: {this.state.sensor2} db</p>
+          <button onClick={this.readSensor2Data}> get data </button>
+          <Gauge Noise={this.state.sensor2}></Gauge>
+
+         
+        </div>
+      )
+    }
 }
