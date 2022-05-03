@@ -100,16 +100,16 @@ export default class getData extends Component {
     render() {
       return (
         <div>
-          <p>the noise: {this.state.sensor1} db</p>
+          <p>the noise 1:  {this.state.sensor1} db</p>
           <button onClick={this.readSensor1Data}> get data </button>
           
           <Gauge Noise={this.state.sensor1}></Gauge>
           <br/>
-          <p>the noise: {this.state.sensor2} db</p>
+          <p>the noise 2: {this.state.sensor2} db</p>
           <button onClick={this.readSensor2Data}> get data </button>
           <Gauge Noise={this.state.sensor2}></Gauge>
 
-          <p>the noise: {this.state.sensor3} db</p>
+          <p>the noise 3: {this.state.sensor3} db</p>
           <button onClick={this.readSensor3Data}> get data </button>
           <Gauge Noise={this.state.sensor3}></Gauge>
          
