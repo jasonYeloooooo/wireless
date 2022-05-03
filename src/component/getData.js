@@ -37,10 +37,14 @@ function writeUserData(userId, name, email, imageUrl) {
 export default class getData extends Component {
   state ={
     sensor1: '',
-    sensor2: ''
+    sensor2: '',
+    sensor3: ''
   }
   
     readSensor1Data =()=>{
+      setInterval(this.fun1,1000,"fun1")
+    }
+    fun1=()=>{
       const dbRef = ref(getDatabase());
       get(child(dbRef,'/sensor/sensor1' )).then((snapshot) => {
       if (snapshot.exists()) {
@@ -54,7 +58,11 @@ export default class getData extends Component {
       console.error(error);
     });
     }
+
     readSensor2Data =()=>{
+      setInterval(this.fun2,1000,"fun2")
+    }
+    fun2=()=>{
       const dbRef = ref(getDatabase());
       get(child(dbRef,'/sensor/sensor2' )).then((snapshot) => {
       if (snapshot.exists()) {
@@ -70,17 +78,40 @@ export default class getData extends Component {
     });
     }
 
+    readSensor3Data =()=>{
+      setInterval(this.fun3,1000,"fun3")
+    }
+    fun3=()=>{
+      const dbRef = ref(getDatabase());
+      get(child(dbRef,'/sensor/sensor3' )).then((snapshot) => {
+      if (snapshot.exists()) {
+        this.setState ({
+          sensor3 : snapshot.val()
+        })
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+      writeUserData()
+    });
+    }
+
     render() {
       return (
         <div>
           <p>the noise: {this.state.sensor1} db</p>
           <button onClick={this.readSensor1Data}> get data </button>
+          
           <Gauge Noise={this.state.sensor1}></Gauge>
           <br/>
           <p>the noise: {this.state.sensor2} db</p>
           <button onClick={this.readSensor2Data}> get data </button>
           <Gauge Noise={this.state.sensor2}></Gauge>
 
+          <p>the noise: {this.state.sensor3} db</p>
+          <button onClick={this.readSensor3Data}> get data </button>
+          <Gauge Noise={this.state.sensor3}></Gauge>
          
         </div>
       )
