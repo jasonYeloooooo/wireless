@@ -51,6 +51,7 @@ export default class getData extends Component {
         this.setState ({
           sensor1 : snapshot.val()
         })
+      if(this.state.sensor1 > 75) alert("location 1 sound level is unsafe")
       } else {
         console.log("No data available");
       }
@@ -69,6 +70,7 @@ export default class getData extends Component {
         this.setState ({
           sensor2 : snapshot.val()
         })
+      if(this.state.sensor2 > 75) alert("location 2 sound level is unsafe")
       } else {
         console.log("No data available");
       }
@@ -88,6 +90,7 @@ export default class getData extends Component {
         this.setState ({
           sensor3 : snapshot.val()
         })
+      if(this.state.sensor3 > 75) alert("location 3 sound level is unsafe")
       } else {
         console.log("No data available");
       }
@@ -97,19 +100,23 @@ export default class getData extends Component {
     });
     }
 
+   alertBox=()=>{
+     alert("fuck ")
+   }
+
     render() {
       return (
         <div>
-          <p>the noise 1:  {this.state.sensor1} db</p>
+          <p>Location 1:  {this.state.sensor1} db</p>
           <button onClick={this.readSensor1Data}> get data </button>
           
           <Gauge Noise={this.state.sensor1}></Gauge>
           <br/>
-          <p>the noise 2: {this.state.sensor2} db</p>
+          <p>Location 2: {this.state.sensor2} db</p>
           <button onClick={this.readSensor2Data}> get data </button>
           <Gauge Noise={this.state.sensor2}></Gauge>
 
-          <p>the noise 3: {this.state.sensor3} db</p>
+          <p>Location 3: {this.state.sensor3} db</p>
           <button onClick={this.readSensor3Data}> get data </button>
           <Gauge Noise={this.state.sensor3}></Gauge>
          
